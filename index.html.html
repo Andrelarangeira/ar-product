@@ -20,17 +20,6 @@
       padding: 40px 20px 10px 20px;
     }
 
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 10px;
-    }
-
-    p {
-      opacity: 0.8;
-      max-width: 600px;
-      margin: 0 auto 20px auto;
-    }
-
     model-viewer {
       width: 100%;
       height: 70vh;
@@ -38,6 +27,27 @@
       position: relative;
     }
 
+    /* Loading Bar */
+    .progress-bar-container {
+      position: absolute;
+      width: 50%;
+      height: 4px;
+      background: rgba(255,255,255,0.2);
+      bottom: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      background: white;
+      transition: width 0.3s;
+    }
+
+    /* AR Button */
     #ar-button {
       background-color: white;
       color: black;
@@ -52,61 +62,27 @@
       cursor: pointer;
     }
 
-    #ar-button:active {
-      background-color: #cccccc;
-    }
-
-    #ar-prompt {
-      position: absolute;
-      left: 50%;
-      bottom: 160px;
-      transform: translateX(-50%);
-      display: none;
-    }
-
-    model-viewer[ar-status="session-started"] > #ar-prompt {
-      display: block;
-    }
-
-    #ar-failure {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: 160px;
-      display: none;
-      background: red;
-      color: white;
-      padding: 8px 15px;
-      border-radius: 20px;
-      border: none;
-    }
-
-    model-viewer[ar-tracking="not-tracking"] > #ar-failure {
-      display: block;
-    }
-
-    .cta {
-      margin: 20px 0 40px 0;
-    }
-
-    .cta a {
+    /* HOTSPOTS */
+    .hotspot {
       background: white;
       color: black;
-      padding: 12px 25px;
-      text-decoration: none;
-      font-weight: bold;
-      border-radius: 30px;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      cursor: pointer;
       transition: 0.3s;
     }
 
-    .cta a:hover {
-      background: #cccccc;
+    .hotspot:hover {
+      background: black;
+      color: white;
     }
 
     footer {
       font-size: 0.8rem;
       opacity: 0.5;
-      padding-bottom: 20px;
+      padding: 20px;
     }
   </style>
 </head>
@@ -119,6 +95,7 @@
   </header>
 
   <model-viewer
+    id="viewer"
     src="havitbake.glb"
     ar
     camera-controls
@@ -128,27 +105,53 @@
     environment-image="neutral"
     alt="3D Product">
 
+    <!-- AR Button -->
     <button slot="ar-button" id="ar-button">
       View in your space
     </button>
 
-    <div id="ar-prompt">
-      <img src="https://modelviewer.dev/assets/hand.png" width="80">
+    <!-- Loading -->
+    <div slot="progress-bar" class="progress-bar-container">
+      <div class="progress-bar"></div>
     </div>
 
-    <button id="ar-failure">
-      AR is not tracking!
+    <!-- HOTSPOTS -->
+    <button class="hotspot"
+      slot="hotspot-1"
+      data-position="0m 0.05m 0.1m"
+      data-normal="0m 1m 0m">
+      40mm Driver
+    </button>
+
+    <button class="hotspot"
+      slot="hotspot-2"
+      data-position="0.05m 0.02m -0.08m"
+      data-normal="0m 1m 0m">
+      Memory Foam Cushion
+    </button>
+
+    <button class="hotspot"
+      slot="hotspot-3"
+      data-position="-0.06m 0.03m 0.04m"
+      data-normal="0m 1m 0m">
+      Noise Canceling Mic
     </button>
 
   </model-viewer>
 
-  <div class="cta">
-    <a href="#">Visit Official Website</a>
-  </div>
-
   <footer>
     © 2026 Company Name. All rights reserved.
   </footer>
+
+  <script>
+    const viewer = document.querySelector("#viewer");
+    const progressBar = document.querySelector(".progress-bar");
+
+    viewer.addEventListener("progress", (event) => {
+      const progress = event.detail.totalProgress;
+      progressBar.style.width = `${progress * 100}%`;
+    });
+  </script>
 
 </body>
 </html>
