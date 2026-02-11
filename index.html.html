@@ -22,12 +22,12 @@
 
     model-viewer {
       width: 100%;
-      height: 70vh;
+      height: 75vh;
       background: #1a1a1a;
       position: relative;
     }
 
-    /* Loading Bar */
+    /* Loading */
     .progress-bar-container {
       position: absolute;
       width: 50%;
@@ -38,6 +38,7 @@
       transform: translate(-50%, -50%);
       border-radius: 4px;
       overflow: hidden;
+      transition: opacity 0.4s ease;
     }
 
     .progress-bar {
@@ -49,20 +50,44 @@
 
     /* AR Button */
     #ar-button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
       background-color: white;
       color: black;
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
-      bottom: 100px;
-      padding: 12px 20px;
+      bottom: 40px;
+      padding: 14px 22px;
       font-weight: bold;
       border-radius: 30px;
       border: none;
       cursor: pointer;
+      font-size: 14px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     }
 
-    /* HOTSPOTS */
+    #ar-button img {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* Reset Camera Button */
+    .reset-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 8px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    /* Hotspots */
     .hotspot {
       background: white;
       color: black;
@@ -103,10 +128,15 @@
     shadow-intensity="1"
     exposure="1"
     environment-image="neutral"
+    interaction-prompt="auto"
+    camera-orbit="0deg 75deg 2.5m"
+    min-camera-orbit="auto auto 1m"
+    max-camera-orbit="auto auto 5m"
     alt="3D Product">
 
     <!-- AR Button -->
     <button slot="ar-button" id="ar-button">
+      <img src="https://cdn-icons-png.flaticon.com/512/929/929610.png">
       View in your space
     </button>
 
@@ -115,26 +145,17 @@
       <div class="progress-bar"></div>
     </div>
 
-    <!-- HOTSPOTS -->
+    <!-- Reset Camera -->
+    <button class="reset-btn" onclick="resetCamera()">
+      Reset View
+    </button>
+
+    <!-- Hotspots -->
     <button class="hotspot"
       slot="hotspot-1"
       data-position="0m 0.05m 0.1m"
       data-normal="0m 1m 0m">
       40mm Driver
-    </button>
-
-    <button class="hotspot"
-      slot="hotspot-2"
-      data-position="0.05m 0.02m -0.08m"
-      data-normal="0m 1m 0m">
-      Memory Foam Cushion
-    </button>
-
-    <button class="hotspot"
-      slot="hotspot-3"
-      data-position="-0.06m 0.03m 0.04m"
-      data-normal="0m 1m 0m">
-      Noise Canceling Mic
     </button>
 
   </model-viewer>
@@ -146,11 +167,28 @@
   <script>
     const viewer = document.querySelector("#viewer");
     const progressBar = document.querySelector(".progress-bar");
+    const progressContainer = document.querySelector(".progress-bar-container");
 
+    // Loading progress
     viewer.addEventListener("progress", (event) => {
       const progress = event.detail.totalProgress;
       progressBar.style.width = `${progress * 100}%`;
+
+      if (progress === 1) {
+        setTimeout(() => {
+          progressContainer.style.opacity = "0";
+          setTimeout(() => {
+            progressContainer.style.display = "none";
+          }, 400);
+        }, 300);
+      }
     });
+
+    // Reset camera (melhora navegação)
+    function resetCamera() {
+      viewer.cameraOrbit = "0deg 75deg 2.5m";
+      viewer.jumpCameraToGoal();
+    }
   </script>
 
 </body>
