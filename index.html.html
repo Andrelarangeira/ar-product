@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🔥 CUSTOMIZE: Product AR Experience 🔥</title>
+  <title>Product AR Experience</title>
 
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
@@ -11,10 +11,7 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-
-      /* 🔥 CUSTOMIZE: BACKGROUND COLOR */
-      background: #111111;
-
+      background: #0f0f0f;
       color: white;
       text-align: center;
     }
@@ -26,49 +23,37 @@
     h1 {
       font-size: 2rem;
       margin-bottom: 10px;
-
-      /* 🔥 CUSTOMIZE: TITLE COLOR */
-      color: #00FFFF;
     }
 
     p {
-      opacity: 0.9;
+      opacity: 0.8;
       max-width: 600px;
       margin: 0 auto 20px auto;
-
-      /* 🔥 CUSTOMIZE: DESCRIPTION COLOR */
-      color: #FF00FF;
     }
 
     model-viewer {
       width: 100%;
       height: 70vh;
-
-      /* 🔥 CUSTOMIZE: MODEL BACKGROUND */
-      background: #222222;
-
+      background: #1a1a1a;
       position: relative;
     }
 
     #ar-button {
-      /* 🔥 CUSTOMIZE: AR BUTTON COLOR */
-      background-color: #00FF00;
+      background-color: white;
       color: black;
-
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
-      bottom: 100px;
-      padding: 14px 24px;
+      bottom: 200px;
+      padding: 12px 20px;
       font-weight: bold;
       border-radius: 30px;
       border: none;
       cursor: pointer;
-      font-size: 16px;
     }
 
     #ar-button:active {
-      background-color: #00cc00;
+      background-color: #cccccc;
     }
 
     #ar-prompt {
@@ -89,11 +74,8 @@
       transform: translateX(-50%);
       bottom: 160px;
       display: none;
-
-      /* 🔥 CUSTOMIZE: ERROR COLOR */
-      background: #FF0000;
+      background: red;
       color: white;
-
       padding: 8px 15px;
       border-radius: 20px;
       border: none;
@@ -108,30 +90,23 @@
     }
 
     .cta a {
-
-      /* 🔥 CUSTOMIZE: WEBSITE BUTTON COLOR */
-      background: #FFFF00;
+      background: white;
       color: black;
-
-      padding: 14px 30px;
+      padding: 12px 25px;
       text-decoration: none;
       font-weight: bold;
       border-radius: 30px;
       transition: 0.3s;
-      font-size: 16px;
     }
 
     .cta a:hover {
-      background: #FFD700;
+      background: #cccccc;
     }
 
     footer {
       font-size: 0.8rem;
-      opacity: 0.6;
+      opacity: 0.5;
       padding-bottom: 20px;
-
-      /* 🔥 CUSTOMIZE: FOOTER COLOR */
-      color: #00FFFF;
     }
   </style>
 </head>
@@ -139,40 +114,22 @@
 <body>
 
   <header>
-
-    <!-- 🔥 CUSTOMIZE: PRODUCT TITLE -->
-    <h1>🔥 PRODUCT NAME HERE 🔥</h1>
-
-    <!-- 🔥 CUSTOMIZE: PRODUCT DESCRIPTION -->
-    <p>
-      🔥 Replace this text with your product description.
-      Let customers visualize your product in their real environment.
-    </p>
-
+    <h1>Experience Your Product in AR</h1>
+    <p>Let customers visualize your product in their real environment before buying.</p>
   </header>
 
   <model-viewer
-
-    <!-- 🔥 CUSTOMIZE: 3D MODEL FILE -->
     src="havitbake.glb"
-
     ar
     camera-controls
     touch-action="pan-y"
-
-    <!-- 🔥 CUSTOMIZE: SHADOW INTENSITY -->
     shadow-intensity="1"
-
-    <!-- 🔥 CUSTOMIZE: EXPOSURE -->
     exposure="1"
-
-    <!-- 🔥 CUSTOMIZE: ENVIRONMENT -->
     environment-image="neutral"
-
     alt="3D Product">
 
     <button slot="ar-button" id="ar-button">
-      🔥 View in Your Space 🔥
+      View in your space
     </button>
 
     <div id="ar-prompt">
@@ -186,16 +143,11 @@
   </model-viewer>
 
   <div class="cta">
-
-    <!-- 🔥 CUSTOMIZE: OFFICIAL WEBSITE LINK -->
-    <a href="https://🔥-PUT-CLIENT-WEBSITE-HERE.com" target="_blank" rel="noopener">
-      🔥 Visit Official Website 🔥
-    </a>
-
+    <a href="#">Visit Official Website</a>
   </div>
 
   <footer>
-    🔥 CUSTOMIZE: © 2026 Your Company Name 🔥
+    © 2026 André Larangeira. All rights reserved.
   </footer>
 
 </body>
