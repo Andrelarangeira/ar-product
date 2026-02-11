@@ -20,94 +20,93 @@
       padding: 40px 20px 10px 20px;
     }
 
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    p {
+      opacity: 0.8;
+      max-width: 600px;
+      margin: 0 auto 20px auto;
+    }
+
     model-viewer {
       width: 100%;
-      height: 75vh;
+      height: 70vh;
       background: #1a1a1a;
       position: relative;
     }
 
-    /* Loading */
-    .progress-bar-container {
-      position: absolute;
-      width: 50%;
-      height: 4px;
-      background: rgba(255,255,255,0.2);
-      bottom: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      border-radius: 4px;
-      overflow: hidden;
-      transition: opacity 0.4s ease;
-    }
-
-    .progress-bar {
-      width: 0%;
-      height: 100%;
-      background: white;
-      transition: width 0.3s;
-    }
-
-    /* AR Button */
     #ar-button {
-      display: flex;
-      align-items: center;
-      gap: 8px;
       background-color: white;
       color: black;
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
-      bottom: 40px;
-      padding: 14px 22px;
+      bottom: 100px;
+      padding: 12px 20px;
       font-weight: bold;
       border-radius: 30px;
       border: none;
       cursor: pointer;
-      font-size: 14px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     }
 
-    #ar-button img {
-      width: 18px;
-      height: 18px;
+    #ar-button:active {
+      background-color: #cccccc;
     }
 
-    /* Reset Camera Button */
-    .reset-btn {
+    #ar-prompt {
       position: absolute;
-      top: 20px;
-      right: 20px;
-      background: rgba(255,255,255,0.1);
-      color: white;
-      border: 1px solid rgba(255,255,255,0.2);
-      padding: 8px 12px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 12px;
+      left: 50%;
+      bottom: 160px;
+      transform: translateX(-50%);
+      display: none;
     }
 
-    /* Hotspots */
-    .hotspot {
+    model-viewer[ar-status="session-started"] > #ar-prompt {
+      display: block;
+    }
+
+    #ar-failure {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 160px;
+      display: none;
+      background: red;
+      color: white;
+      padding: 8px 15px;
+      border-radius: 20px;
+      border: none;
+    }
+
+    model-viewer[ar-tracking="not-tracking"] > #ar-failure {
+      display: block;
+    }
+
+    .cta {
+      margin: 20px 0 40px 0;
+    }
+
+    .cta a {
       background: white;
       color: black;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      cursor: pointer;
+      padding: 12px 25px;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 30px;
       transition: 0.3s;
     }
 
-    .hotspot:hover {
-      background: black;
-      color: white;
+    .cta a:hover {
+      background: #cccccc;
     }
 
     footer {
       font-size: 0.8rem;
       opacity: 0.5;
-      padding: 20px;
+      padding-bottom: 20px;
     }
   </style>
 </head>
@@ -115,12 +114,11 @@
 <body>
 
   <header>
-    <h1>Product Name</h1>
+    <h1>HAVIT</h1>
     <p>Experience the product in your own space using Augmented Reality.</p>
   </header>
 
   <model-viewer
-    id="viewer"
     src="havitbake.glb"
     ar
     camera-controls
@@ -128,68 +126,29 @@
     shadow-intensity="1"
     exposure="1"
     environment-image="neutral"
-    interaction-prompt="auto"
-    camera-orbit="0deg 75deg 2.5m"
-    min-camera-orbit="auto auto 1m"
-    max-camera-orbit="auto auto 5m"
     alt="3D Product">
 
-    <!-- AR Button -->
     <button slot="ar-button" id="ar-button">
-      <img src="https://cdn-icons-png.flaticon.com/512/929/929610.png">
       View in your space
     </button>
 
-    <!-- Loading -->
-    <div slot="progress-bar" class="progress-bar-container">
-      <div class="progress-bar"></div>
+    <div id="ar-prompt">
+      <img src="https://modelviewer.dev/assets/hand.png" width="80">
     </div>
 
-    <!-- Reset Camera -->
-    <button class="reset-btn" onclick="resetCamera()">
-      Reset View
-    </button>
-
-    <!-- Hotspots -->
-    <button class="hotspot"
-      slot="hotspot-1"
-      data-position="0m 0.05m 0.1m"
-      data-normal="0m 1m 0m">
-      40mm Driver
+    <button id="ar-failure">
+      AR is not tracking!
     </button>
 
   </model-viewer>
 
+  <div class="cta">
+    <a href="#">Visit Official Website</a>
+  </div>
+
   <footer>
-    © 2026 Company Name. All rights reserved.
+    © 2026 HAVIT. All rights reserved.
   </footer>
-
-  <script>
-    const viewer = document.querySelector("#viewer");
-    const progressBar = document.querySelector(".progress-bar");
-    const progressContainer = document.querySelector(".progress-bar-container");
-
-    // Loading progress
-    viewer.addEventListener("progress", (event) => {
-      const progress = event.detail.totalProgress;
-      progressBar.style.width = `${progress * 100}%`;
-
-      if (progress === 1) {
-        setTimeout(() => {
-          progressContainer.style.opacity = "0";
-          setTimeout(() => {
-            progressContainer.style.display = "none";
-          }, 400);
-        }, 300);
-      }
-    });
-
-    // Reset camera (melhora navegação)
-    function resetCamera() {
-      viewer.cameraOrbit = "0deg 75deg 2.5m";
-      viewer.jumpCameraToGoal();
-    }
-  </script>
 
 </body>
 </html>
